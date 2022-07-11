@@ -1,0 +1,71 @@
+# Created by https://www.gitignore.io/api/emacs,matlab
+# Edit at https://www.gitignore.io/?templates=emacs,matlab
+
+### VSCode ###
+.vscode/
+.env
+
+
+### MATLAB ###
+# Windows default autosave extension
+*.asv
+
+# OSX / *nix default autosave extension
+*.m~
+
+# Compiled MEX binaries (all platforms)
+*.mex*
+
+# Packaged app and toolbox files
+*.mlappinstall
+*.mltbx
+
+# Generated helpsearch folders
+helpsearch*/
+
+# Simulink code generation folders
+slprj/
+sccprj/
+
+# Matlab code generation folders
+codegen/
+
+# Simulink autosave extension
+*.autosave
+
+# Octave session info
+octave-workspace
+
+# End of https://www.gitignore.io/api/emacs,matlab
+
+### Python ###
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# R
+.Rhistory
+
+### Project specific ###
+
+*.html
+*.svg
+
+# Jobs script files and job results files
+*.slurm
+*.out
+
+# temporary file for parfor progress
+parfor_progress.txt
+
+# Folders to ignore
+data/
+stimuli/

@@ -1,0 +1,55 @@
+%% How to (pre)process raw MEG data for the AV_speech study on the cluster %%
+
+--- Start in Matlab ---
+
+1) Maxfilter (NB: takes a long time!)
+> open maxfilter_main_script_AVspeech.m in Matlab
+> edit subject-specific directories and bad channels
+> run (preferably using parallell computing)
+> check that you now have .fif-files like "block1_raw_ds.fif"
+
+--- Move to MNE Python ---
+
+2) Set things up for MNE Python preprocessing:
+> move data to M+EEG folder
+> in MNE Python, cd into code/preprocessing
+
+3) Concatenate blocks (concatenate_raw_AVspeech.py)
+> edit the "subs" variable
+> run the script in MNE Python
+
+4) Fix EEG elextrodes (check_eeg_electrodes_AVspeech.py)
+> edit the "subjfolder" variable
+> run script in MNE Python
+
+5) ICA artifact rejection (remove_artifacts_ICA_AVspeech.py)
+> edit the "subs" variable
+> edit the variables that determine whether to do MEG/EEG/both and ECG/EOG/both
+> edit bad EEG electrodes
+> run the script in MNE Python
+>> if you get an error saying "No clean segment found", you might have missed a 
+bad EEG electrode or MEG channel, so have a look in mne_browse_raw
+
+--- Move to the MNE Python toolbox for Matlab ---
+
+* Run mne_setup first! *
+
+6) Find the subject whose head position is closest to the average 
+(headpos_average.m)
+>> NB: this means that you need to have data from all your subjects first!
+
+7) Perform a "virtual headposition transformation" on all subjects so that 
+sensor-level data can be compared more easily (trans_normalise_headpos.m)
+
+--- Move to FieldTrip in Matlab ---
+
+8) Segment data into trials (segment_into_trials_alltrig_AVspeech.m)
+> edit subjPaths and run
+
+9) Reject bad trials and sensors (reject_trials_stdev_visinspect_AVspeech.m)
+> edit subjPaths and run
+> check that the number of trials rejected looks sensible (not more than 10%)
+
+10) Add in the lip and audio envelopes to the good trials (add_envelopes_AVspeech.m)
+> edit subjPaths and run
+>> the envelopes were made using the script resample_envelopes_AVspeech.m
