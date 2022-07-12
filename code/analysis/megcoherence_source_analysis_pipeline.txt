@@ -1,0 +1,150 @@
+# Compute individual source coherence maps
+python megcoherence_dics_beamformer.py aud-allAud-true
+python megcoherence_dics_beamformer.py aud-allAud-perm
+python megcoherence_dics_beamformer.py vis-allVis-true
+python megcoherence_dics_beamformer.py vis-allVis-perm
+python megcoherence_dics_beamformer.py aud-AV-true -pc yes
+python megcoherence_dics_beamformer.py aud-AV-perm -pc yes
+python megcoherence_dics_beamformer.py vis-AV-true -pc yes
+python megcoherence_dics_beamformer.py vis-AV-perm -pc yes
+python megcoherence_dics_beamformer.py aud-AO-true -pc yes
+python megcoherence_dics_beamformer.py aud-AO-perm -pc yes
+python megcoherence_dics_beamformer.py vis-AO-true -pc yes
+python megcoherence_dics_beamformer.py vis-AO-perm -pc yes
+python megcoherence_dics_beamformer.py aud-VO-true -pc yes
+python megcoherence_dics_beamformer.py aud-VO-perm -pc yes
+python megcoherence_dics_beamformer.py vis-VO-true -pc yes
+python megcoherence_dics_beamformer.py vis-VO-perm -pc yes
+
+python megcoherence_dics_beamformer.py aud-AV-true -pc yes -ms VO
+python megcoherence_dics_beamformer.py aud-AV-perm -pc yes -ms VO
+python megcoherence_dics_beamformer.py vis-AV-true -pc yes -ms VO
+python megcoherence_dics_beamformer.py vis-AV-perm -pc yes -ms VO
+python megcoherence_dics_beamformer.py vis-AO-true -pc yes -ms VO
+python megcoherence_dics_beamformer.py vis-AO-perm -pc yes -ms VO
+
+# Compute group level statistics
+python megcoherence_dics_stats.py aud-allAud-true aud-allAud-perm -t 1 -pc 0.005
+run megcoherence_dics_stats.py vis-allVis-true vis-allVis-perm -t 1 -pc 0.005
+# python megcoherence_dics_stats.py pcoh-vis-AV-true pcoh-aud-AV-true -t 0 -ps 0.1 # Equivalent to two separate comparisons at alpha = 0.05 each
+python megcoherence_dics_stats.py pcoh-vis-AV-true pcoh-aud-AV-true -t 0
+python megcoherence_dics_stats.py pcoh-vis-AV-true pcoh-vis-AV-perm -t 1
+python megcoherence_dics_stats.py pcoh-vis-VO-true pcoh-vis-VO-perm -t 1
+python megcoherence_dics_stats.py pcoh-aud-AV-true pcoh-aud-AV-perm -t 1
+python megcoherence_dics_stats.py pcoh-aud-AO-true pcoh-aud-AO-perm -t 1
+python megcoherence_dics_stats pcoh-aud-AO-true pcoh-aud-AO-perm -c3 pcoh-aud-AV-true -c4 pcoh-aud-AV-perm
+python megcoherence_dics_stats pcoh-aud-AV-true pcoh-aud-AV-perm -c3 pcoh-aud-AO-true -c4 pcoh-aud-AO-perm
+python megcoherence_dics_stats pcoh-vis-VO-true pcoh-vis-VO-perm -c3 pcoh-vis-AV-true -c4 pcoh-vis-AV-perm
+python megcoherence_dics_stats pcoh-vis-AV-true pcoh-vis-AV-perm -c3 pcoh-vis-VO-true -c4 pcoh-vis-VO-perm
+python megcoherence_dics_stats pcoh-vis-VO-true pcoh-vis-VO-perm -c3 pcoh-vis-AV-true-matchVO -c4 pcoh-vis-AV-perm-matchVO
+python megcoherence_dics_stats pcoh-vis-AV-true-matchVO pcoh-vis-AV-perm-matchVO -c3 pcoh-vis-VO-true -c4 pcoh-vis-VO-perm
+python megcoherence_dics_stats pcoh-aud-AV20-true pcoh-aud-AV20-perm -c3 pcoh-aud-AO70-true -c4 pcoh-aud-AO70-perm
+python megcoherence_dics_stats pcoh-aud-AO70-true pcoh-aud-AO70-perm -c3 pcoh-aud-AV20-true -c4 pcoh-aud-AV20-perm
+
+# Plot figures
+# Run these from an interactive IPython console so the plots remain open
+###############################################
+# Basic auditory and visual coherence effects #
+###############################################
+run megcoherence_plot_source group_src-coh-tval_aud-allAud-true_vs_aud-allAud-perm_2-6Hz_mag-rh.stc -tv off -cl pval-lims-0.005-0.005-0.00001 -cmap vik_r -bg w -he split -v lat -fl group_src-coh-clust_aud-allAud-true_vs_aud-allAud-perm_2-6Hz_mag-rh.stc -flm mask
+brain.save_image('src_pcoh_aud-allAud_lat_vik_r')
+run megcoherence_plot_source group_src-coh-tval_aud-allAud-true_vs_aud-allAud-perm_2-6Hz_mag-rh.stc -tv off -cl pval-lims-0.005-0.005-0.00001 -cmap vik_r -bg w -he split -v cau -fl group_src-coh-clust_aud-allAud-true_vs_aud-allAud-perm_2-6Hz_mag-rh.stc -flm mask
+brain.save_image('src_pcoh_aud-allAud_cau_vik_r')
+
+run megcoherence_plot_source group_src-coh-tval_vis-allVis-true_vs_vis-allVis-perm_2-6Hz_mag-rh.stc -tv off -cl pval-lims-0.005-0.005-0.00001 -cmap vik -bg w -he split -v lat -fl group_src-coh-clust_vis-allVis-true_vs_vis-allVis-perm_2-6Hz_mag-rh.stc -flm mask
+brain.save_image('src_pcoh_vis-allVis_lat_vik')
+run megcoherence_plot_source group_src-coh-tval_vis-allVis-true_vs_vis-allVis-perm_2-6Hz_mag-rh.stc -tv off -cl pval-lims-0.005-0.005-0.00001 -cmap vik -bg w -he split -v cau -fl group_src-coh-clust_vis-allVis-true_vs_vis-allVis-perm_2-6Hz_mag-rh.stc -flm mask
+brain.save_image('src_pcoh_vis-allVis_cau_vik')
+
+########################################################
+# Auditory vs visual partial coherence (AV conditions) #
+########################################################
+# uncorrected t-maps
+# run megcoherence_plot_source group_src-pcoh-tval_vis-AV-true_vs_aud-AV-true_2-6Hz_mag-rh.stc -tv off -cl pval-pos_lims-0.05-0.05-0.0001 -cmap vik -bg w -he split -v lat -l STG
+run megcoherence_plot_source group_src-pcoh-tval_vis-AV-true_vs_aud-AV-true_2-6Hz_mag-rh.stc -tv off -cl pval-pos_lims-0.1-0.1-0.0002 -he split -cmap vik -bg w -v lat -l STG -fl group_src-pcoh-clust_vis-AV-true_vs_aud-AV-true_2-6Hz_mag-rh.stc -flm mask
+brain.save_image('src_pcoh_vis-AV_vs_aud-AV_lat_vik')
+# run megcoherence_plot_source group_src-pcoh-tval_vis-AV-true_vs_aud-AV-true_2-6Hz_mag-rh.stc -tv off -cl pval-pos_lims-0.05-0.05-0.0001 -cmap vik -bg w -he split -v cau -l Occ_cortex
+run megcoherence_plot_source group_src-pcoh-tval_vis-AV-true_vs_aud-AV-true_2-6Hz_mag-rh.stc -tv off -cl pval-pos_lims-0.1-0.1-0.0002 -he split -cmap vik -bg w -v cau -l Occ_cortex -fl group_src-pcoh-clust_vis-AV-true_vs_aud-AV-true_2-6Hz_mag-rh.stc -flm mask
+brain.save_image('src_pcoh_vis-AV_vs_aud-AV_cau_vik')
+# whole-brain corrected clusters
+run megcoherence_plot_source group_src-pcoh-clust_vis-AV-true_vs_aud-AV-true_2-6Hz_mag-rh.stc -tv off  -he split -v lat -l STG
+
+############################################
+# Visual influence on auditory entrainment #
+############################################
+# AO true vs perm auditory partial coherence
+run megcoherence_plot_source group_src-pcoh-tval_aud-AO-true_vs_aud-AO-perm_2-6Hz_mag-rh.stc -tv off -cl pval-lims-0.05-0.05-0.0001 -he split -cmap vik_r -bg w -v lat -l Occ_cortex
+brain.save_image('src_pcoh_aud-AO_true_vs_perm_lat_vik_r')
+run megcoherence_plot_source group_src-pcoh-tval_aud-AO-true_vs_aud-AO-perm_2-6Hz_mag-rh.stc -tv off -cl pval-lims-0.05-0.05-0.0001 -he split -cmap vik_r -bg w -v cau -l Occ_cortex
+brain.save_image('src_pcoh_aud-AO_true_vs_perm_cau_vik_r')
+
+# AV true vs perm auditory partial coherence
+run megcoherence_plot_source group_src-pcoh-tval_aud-AV-true_vs_aud-AV-perm_2-6Hz_mag-rh.stc -tv off -cl pval-lims-0.05-0.05-0.0001 -he split -cmap vik_r -bg w -v lat -l Occ_cortex
+brain.save_image('src_pcoh_aud-AV_true_vs_perm_lat_vik_r')
+run megcoherence_plot_source group_src-pcoh-tval_aud-AV-true_vs_aud-AV-perm_2-6Hz_mag-rh.stc -tv off -cl pval-lims-0.05-0.05-0.0001 -he split -cmap vik_r -bg w -v cau -l Occ_cortex
+brain.save_image('src_pcoh_aud-AV_true_vs_perm_cau_vik_r')
+
+# VO true vs perm visual partial coherence
+run megcoherence_plot_source group_src-pcoh-tval_vis-VO-true_vs_vis-VO-perm_2-6Hz_mag-rh.stc -tv off -cl pval-lims-0.05-0.05-0.0001 -he split -cmap vik -bg w -v lat -l STG
+brain.save_image('src_pcoh_vis-VO_true_vs_perm_lat_vik')
+run megcoherence_plot_source group_src-pcoh-tval_vis-VO-true_vs_vis-VO-perm_2-6Hz_mag-rh.stc -tv off -cl pval-lims-0.05-0.05-0.0001 -he split -cmap vik -bg w -v cau -l STG
+brain.save_image('src_pcoh_vis-VO_true_vs_perm_cau_vik')
+
+# AV true vs perm visual partial coherence
+run megcoherence_plot_source group_src-pcoh-tval_vis-AV-true_vs_vis-AV-perm_2-6Hz_mag-rh.stc -tv off -cl pval-lims-0.05-0.05-0.0001 -he split -cmap vik -bg w -v lat -l STG
+brain.save_image('src_pcoh_vis-AV_true_vs_perm_lat_vik')
+run megcoherence_plot_source group_src-pcoh-tval_vis-AV-true_vs_vis-AV-perm_2-6Hz_mag-rh.stc -tv off -cl pval-lims-0.05-0.05-0.0001 -he split -cmap vik -bg w -v cau -l STG
+brain.save_image('src_pcoh_vis-AV_true_vs_perm_cau_vik')
+
+
+# AV_true-perm vs AO_true-perm auditory partial coherence
+run megcoherence_plot_source group_src-pcoh-tval_aud-AV-true_-_aud-AV-perm_vs_aud-AO-true_-_aud-AO-perm_2-6Hz_mag-rh.stc -tv off -cl pval-lims-0.05-0.05-0.0001 -he split -cmap vik_r -bg w -v lat -l STG -fl 'group_src-pcoh-clust_aud-AV-true_-_aud-AV-perm_vs_aud-AO-true_-_aud-AO-perm_2-6Hz_mag-rh.stc' -flc 'b'
+brain.save_image('src_pcoh_aud-AV_true-perm_vs_AO_true-perm_lat_vik_r_clust')
+run megcoherence_plot_source group_src-pcoh-tval_aud-AV-true_-_aud-AV-perm_vs_aud-AO-true_-_aud-AO-perm_2-6Hz_mag-rh.stc -tv off -cl pval-lims-0.05-0.05-0.0001 -he split -cmap vik_r -bg w -v cau -l Occ_cortex -fl 'group_src-pcoh-clust_aud-AV-true_-_aud-AV-perm_vs_aud-AO-true_-_aud-AO-perm_2-6Hz_mag-rh.stc' -flc 'b'
+brain.save_image('src_pcoh_aud-AV_true-perm_vs_AO_true-perm_cau_vik_r_clust')
+
+# AO_true-perm vs AV_true-perm auditory partial coherence
+run megcoherence_plot_source group_src-pcoh-tval_aud-AO-true_-_aud-AO-perm_vs_aud-AV-true_-_aud-AV-perm_2-6Hz_mag-rh.stc -tv off -cl pval-lims-0.05-0.05-0.0001 -he split -cmap vik_r -bg w -v lat -l STG
+brain.save_image('src_pcoh_aud-AO_true-perm_vs_AV_true-perm_lat_vik_r')
+run megcoherence_plot_source group_src-pcoh-tval_aud-AO-true_-_aud-AO-perm_vs_aud-AV-true_-_aud-AV-perm_2-6Hz_mag-rh.stc -tv off -cl pval-lims-0.05-0.05-0.0001 -he split -cmap vik_r -bg w -v cau -l Occ_cortex
+brain.save_image('src_pcoh_aud-AO_true-perm_vs_AV_true-perm_cau_vik_r')
+
+# AV20_true-perm vs AO70_true-perm auditory partial coherence
+run megcoherence_plot_source group_src-pcoh-tval_aud-AV20-true_-_aud-AV20-perm_vs_aud-AO70-true_-_aud-AO70-perm_2-6Hz_mag-rh.stc -tv off -cl pval-lims-0.05-0.05-0.0001 -he split -cmap vik_r -bg w -v lat -l STG 
+brain.save_image('src_pcoh_aud-AV20_true-perm_vs_AO70_true-perm_lat_vik_r')
+run megcoherence_plot_source group_src-pcoh-tval_aud-AV20-true_-_aud-AV20-perm_vs_aud-AO70-true_-_aud-AO70-perm_2-6Hz_mag-rh.stc -tv off -cl pval-lims-0.05-0.05-0.0001 -he split -cmap vik_r -bg w -v cau -l Occ_cortex 
+brain.save_image('src_pcoh_aud-AV20_true-perm_vs_AO70_true-perm_cau_vik_r')
+
+# AO70_true-perm vs AV20_true-perm auditory partial coherence
+run megcoherence_plot_source group_src-pcoh-tval_aud-AO70-true_-_aud-AO70-perm_vs_aud-AV20-true_-_aud-AV20-perm_2-6Hz_mag-rh.stc -tv off -cl pval-lims-0.05-0.05-0.0001 -he split -cmap vik_r -bg w -v lat -l STG 
+brain.save_image('src_pcoh_aud-AO70_true-perm_vs_AV20_true-perm_lat_vik_r')
+run megcoherence_plot_source group_src-pcoh-tval_aud-AO70-true_-_aud-AO70-perm_vs_aud-AV20-true_-_aud-AV20-perm_2-6Hz_mag-rh.stc -tv off -cl pval-lims-0.05-0.05-0.0001 -he split -cmap vik_r -bg w -v cau -l Occ_cortex 
+brain.save_image('src_pcoh_aud-AO70_true-perm_vs_AV20_true-perm_cau_vik_r')
+
+# AV_true-perm vs VO_true-perm visual partial coherence
+run megcoherence_plot_source group_src-pcoh-tval_vis-AV-true_-_vis-AV-perm_vs_vis-VO-true_-_vis-VO-perm_2-6Hz_mag-rh.stc -tv off -cl pval-lims-0.05-0.05-0.0001 -he split -cmap vik -bg w -v lat -l STG
+brain.save_image('src_pcoh_vis-AV_true-perm_vs_VO_true-perm_lat_vik')
+run megcoherence_plot_source group_src-pcoh-tval_vis-AV-true_-_vis-AV-perm_vs_vis-VO-true_-_vis-VO-perm_2-6Hz_mag-rh.stc -tv off -cl pval-lims-0.05-0.05-0.0001 -he split -cmap vik -bg w -v cau -l Occ_cortex
+brain.save_image('src_pcoh_vis-AV_true-perm_vs_VO_true-perm_cau_vik')
+
+# VO_true-perm vs AV_true-perm visual partial coherence
+run megcoherence_plot_source group_src-pcoh-tval_vis-VO-true_-_vis-VO-perm_vs_vis-AV-true_-_vis-AV-perm_2-6Hz_mag-rh.stc -tv off -cl pval-lims-0.05-0.05-0.0001 -he split -cmap vik -bg w -v lat -l STG
+brain.save_image('src_pcoh_vis-VO_true-perm_vs_AV_true-perm_lat_vik')
+run megcoherence_plot_source group_src-pcoh-tval_vis-VO-true_-_vis-VO-perm_vs_vis-AV-true_-_vis-AV-perm_2-6Hz_mag-rh.stc -tv off -cl pval-lims-0.05-0.05-0.0001 -he split -cmap vik -bg w -v cau -l Occ_cortex
+brain.save_image('src_pcoh_vis-VO_true-perm_vs_AV_true-perm_cau_vik')
+
+# AV_true-perm (sample size matched to VO) vs VO_true-perm visual partial coherence
+run megcoherence_plot_source group_src-pcoh-tval_vis-AV-true-matchVO_-_vis-AV-perm-matchVO_vs_vis-VO-true_-_vis-VO-perm_2-6Hz_mag-rh.stc -tv off -cl pval-lims-0.05-0.05-0.0001 -he split -cmap vik -bg w -v lat -l STG
+brain.save_image('src_pcoh_vis-AV_true-perm_matchVO_vs_VO_true-perm_lat_vik')
+run megcoherence_plot_source group_src-pcoh-tval_vis-AV-true-matchVO_-_vis-AV-perm-matchVO_vs_vis-VO-true_-_vis-VO-perm_2-6Hz_mag-rh.stc -tv off -cl pval-lims-0.05-0.05-0.0001 -he split -cmap vik -bg w -v cau -l Occ_cortex
+brain.save_image('src_pcoh_vis-AV_true-perm_matchVO_vs_VO_true-perm_cau_vik')
+
+# VO_true-perm vs AV_true-perm (sample size matched to VO) visual partial coherence
+run megcoherence_plot_source group_src-pcoh-tval_vis-VO-true_-_vis-VO-perm_vs_vis-AV-true-matchVO_-_vis-AV-perm-matchVO_2-6Hz_mag-rh.stc -tv off -cl pval-lims-0.05-0.05-0.0001 -he split -cmap vik -bg w -v lat -l STG -fl 'group_src-pcoh-clust_vis-VO-true_-_vis-VO-perm_vs_vis-AV-true-matchVO_-_vis-AV-perm-matchVO_2-6Hz_mag-rh.stc' -flc 'r'
+brain.save_image('src_pcoh_vis-VO_true-perm_vs_AV_true-perm_matchVO_lat_vik_clust')
+run megcoherence_plot_source group_src-pcoh-tval_vis-VO-true_-_vis-VO-perm_vs_vis-AV-true-matchVO_-_vis-AV-perm-matchVO_2-6Hz_mag-rh.stc -tv off -cl pval-lims-0.05-0.05-0.0001 -he split -cmap vik -bg w -v med -l STG -fl 'group_src-pcoh-clust_vis-VO-true_-_vis-VO-perm_vs_vis-AV-true-matchVO_-_vis-AV-perm-matchVO_2-6Hz_mag-rh.stc' -flc 'r'
+brain.save_image('src_pcoh_vis-VO_true-perm_vs_AV_true-perm_matchVO_med_vik_clust')
+run megcoherence_plot_source group_src-pcoh-tval_vis-VO-true_-_vis-VO-perm_vs_vis-AV-true-matchVO_-_vis-AV-perm-matchVO_2-6Hz_mag-rh.stc -tv off -cl pval-lims-0.05-0.05-0.0001 -he split -cmap vik -bg w -v cau -l Occ_cortex -fl 'group_src-pcoh-clust_vis-VO-true_-_vis-VO-perm_vs_vis-AV-true-matchVO_-_vis-AV-perm-matchVO_2-6Hz_mag-rh.stc' -flc 'r'
+brain.save_image('src_pcoh_vis-VO_true-perm_vs_AV_true-perm_matchVO_cau_vik_clust')
+
+
