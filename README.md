@@ -29,8 +29,9 @@ Cite: Aller, M., Solberg Økland, H., MacGregor, L. J., Blank, H., & Davis, M. H
 	setenv MESA_GL_VERSION_OVERRIDE 3.3
 	setenv PYTHONPATH `pwd`
 	```
-2. To reproduce the source-space MEG results run the  audiovisual_speech_MEG/results/megcoherence_anatomical_roi_analysis.ipynb notebook in jupyter notebook. 
-3. Source analysis pipeline can be found at audiovisual_speech_MEG/code/analysis/megcoherence_source_analysis_pipeline.txt. To reproduce source coherence maps run the corresponding line of code from the text file in an Ipython console. 
+2. Update the project_dir variable in audiovisual_speech_MEG/code/analysis/megcoherence_utils.py to the project folder path on your system. 
+3. To reproduce the source-space MEG results run the  audiovisual_speech_MEG/results/megcoherence_anatomical_roi_analysis.ipynb notebook in jupyter notebook. 
+4. Source analysis pipeline can be found at audiovisual_speech_MEG/code/analysis/megcoherence_source_analysis_pipeline.txt. To reproduce source coherence maps run the corresponding line of code from the text file in an Ipython console. 
 
 ## Dependencies (MATLAB)
 - [barwitherr](https://uk.mathworks.com/matlabcentral/fileexchange?q=barwitherr)
