@@ -14,6 +14,7 @@ concepts for forward modeling, see :ref:`ch_forward`.
 import os.path as op
 import mne
 from argparse import ArgumentParser
+from megcoherence_utils import project_dir
 
 parser = ArgumentParser()
 parser.add_argument('fwd_type', '--ft', help='Type of forward model (vol or surf)',
@@ -26,8 +27,7 @@ fwd_type = args.fwd_type
 source_space = args.source_space
 
 # The paths to Freesurfer reconstructions
-subjects_dir = op.join('/imaging', 'ma09', 'Projects', 'AVSpeechMEG',
-                       'data', 'derivatives', 'anat')
+subjects_dir = op.join(project_dir, 'data', 'derivatives', 'anat')
 
 subIDlist = ['sub-' + str(n).zfill(2) for n in list(range(1, 15))]
 
@@ -44,12 +44,10 @@ if source_space == 'fsaverage':
         mne.write_source_spaces(fsavg_src_fname, fsaverage_src, overwrite=True)
 
 for subID in subIDlist:
-    raw_data_dir = op.join('/imaging', 'ma09', 'Projects', 'AVSpeechMEG',
-                           'data', 'derivatives', 'maxfilter', subID)
+    raw_data_dir = op.join(project_dir, 'data', 'derivatives', 'maxfilter', subID)
     # the raw file containing the channel location + types
     raw_fname = op.join(raw_data_dir, 'block1_raw.fif')
-    destDir = op.join('/imaging', 'ma09', 'Projects', 'AVSpeechMEG', 'data',
-                      'derivatives', 'megevoked', subID)
+    destDir = op.join(project_dir, 'data', 'derivatives', 'megcoherence', subID)
     # Visualizing the coregistration
     # ------------------------------
     #

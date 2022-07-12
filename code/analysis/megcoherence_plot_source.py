@@ -34,6 +34,7 @@ import numpy as np
 from argparse import ArgumentParser
 from scipy import stats as stats
 from cmcrameri import cm
+from megcoherence_utils import project_dir
 # import re
 # from matplotlib import pyplot as plt
 # from matplotlib import cm
@@ -105,8 +106,6 @@ assert any(func_label_mode == x for x in ['draw', 'mask'])
 if func_label_mode == 'mask':
     assert func_label_fname # should not be empty
 
-project_dir = op.join('/imaging', 'davis', 'Projects', 'AVSpeechMEG', 'GitHub', 'audiovisual_speech_MEG')
-# project_dir = op.join('/imaging', 'davis', 'users', 'ma09', 'Projects', 'AVSpeechMEG')
 subjects_dir = op.join(project_dir, 'data', 'derivatives', 'anat')
 if subdirectory:
     dest_dir = op.join(project_dir, 'data', 'derivatives', 'megcoherence', subID, subdirectory)

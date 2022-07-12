@@ -14,6 +14,9 @@ import numpy as np
 import pandas as pd
 import re
 
+# Update this to your project folder path
+project_dir = op.join('/imaging', 'davis', 'Projects', 'AVSpeechMEG', 'OSF', 'audiovisual_speech_MEG')
+
 
 def load_data_roi_analysis(conds, rois, channel_type='mag', freqs=[2, 6], save=False, sub_dir=None):
     """ Load data for anatomical ROI analysis to a pandas dataframe"""

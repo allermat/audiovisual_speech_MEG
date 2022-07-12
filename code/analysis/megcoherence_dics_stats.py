@@ -18,6 +18,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from statsmodels.stats.anova import AnovaRM
 import seaborn as sns
+from megcoherence_utils import project_dir
 
 parser = ArgumentParser()
 parser.add_argument('cond1', help='First condition')
@@ -117,15 +118,12 @@ n_subjects = 14
 
 subIDlist = ['sub-' + str(n).zfill(2) for n in list(range(1, n_subjects+1))]
 
-subjects_dir = op.join('/imaging', 'davis', 'users', 'ma09', 'Projects',
-                       'AVSpeechMEG', 'data', 'derivatives', 'anat')
+subjects_dir = op.join(project_dir, 'data', 'derivatives', 'anat')
 if subdirectory:
-    dest_dir = op.join('/imaging', 'davis', 'users', 'ma09', 'Projects',
-                       'AVSpeechMEG', 'data', 'derivatives', 'megcoherence',
+    dest_dir = op.join(project_dir, 'data', 'derivatives', 'megcoherence',
                        'group', subdirectory)
 else:
-    dest_dir = op.join('/imaging', 'davis', 'users', 'ma09', 'Projects',
-                       'AVSpeechMEG', 'data', 'derivatives', 'megcoherence',
+    dest_dir = op.join(project_dir, 'data', 'derivatives', 'megcoherence',
                        'group')
 anat_label = ''
 # Loading mask
@@ -189,16 +187,12 @@ stc_morph_list_cond3, stc_morph_list_cond4 = [], []
 for subID in subIDlist:
 
     if subdirectory:
-        source_dir = op.join('/imaging', 'davis', 'users', 'ma09', 'Projects', 'AVSpeechMEG',
-                             'data', 'derivatives', 'megcoherence', subID,
+        source_dir = op.join(project_dir, 'data', 'derivatives', 'megcoherence', subID,
                              subdirectory)
     else:
-        source_dir = op.join('/imaging', 'davis', 'users', 'ma09', 'Projects', 'AVSpeechMEG',
-                             'data', 'derivatives', 'megcoherence', subID)
-    evoked_dir = op.join('/imaging', 'davis', 'users', 'ma09', 'Projects', 'AVSpeechMEG', 'data',
-                         'derivatives', 'megevoked', subID)
+        source_dir = op.join(project_dir, 'data', 'derivatives', 'megcoherence', subID)
     # Load precomputed forward solution and source estimates
-    forward_fname = op.join(evoked_dir, ''.join([subID, '_surf-fwd.fif']))
+    forward_fname = op.join(source_dir, ''.join([subID, '_surf-fwd.fif']))
     forward = mne.read_forward_solution(forward_fname)
 
     # appending an underscore to the matchstring if it is not empty

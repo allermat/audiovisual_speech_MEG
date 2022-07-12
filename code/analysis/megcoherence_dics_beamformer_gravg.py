@@ -7,6 +7,7 @@ Created on Fri May 22 11:03:35 2020
 import os.path as op
 import mne
 from argparse import ArgumentParser
+from megcoherence_utils import project_dir
 
 parser = ArgumentParser()
 parser.add_argument('-ct', '--channel_type', help='Channel type (mag or grad)',
@@ -34,10 +35,8 @@ freq_str = '{}-{}Hz'.format(2,6)
 n_subjects = 14
 subIDlist = ['sub-' + str(n).zfill(2) for n in list(range(1,n_subjects+1))]
 
-subjects_dir = op.join('/imaging','ma09','Projects','AVSpeechMEG','data',
-                       'derivatives','anat')
-dest_dir = op.join('/imaging','ma09','Projects','AVSpeechMEG','data',
-                  'derivatives','megcoherence','group') 
+subjects_dir = op.join(project_dir, 'data', 'derivatives', 'anat')
+dest_dir = op.join(project_dir, 'data', 'derivatives', 'megcoherence', 'group') 
 # load fsaverage source space for morphing
 mne.datasets.fetch_fsaverage(subjects_dir)  # ensure fsaverage src exists
 fname_fs_src = subjects_dir + '/fsaverage/bem/fsaverage-vol-5-src.fif'
@@ -46,10 +45,7 @@ src_fs = mne.read_source_spaces(fname_fs_src)
 stc_morphed = []
 for subID in subIDlist:
     
-    source_dir = op.join('/imaging','ma09','Projects','AVSpeechMEG','data',
-              'derivatives','megcoherence',subID)    
-    evoked_dir = op.join('/imaging','ma09','Projects','AVSpeechMEG','data',
-                  'derivatives','megevoked',subID)
+    source_dir = op.join(project_dir, 'data', 'derivatives', 'megcoherence', subID)    
     # Load precomputed forward solution and source estimates
     # ------------------------
     if source_space == 'vol':
@@ -66,7 +62,7 @@ for subID in subIDlist:
             verbose=True)
         
     else:
-        forward_fname = op.join(evoked_dir,''.join([subID,'_surf-fwd.fif']))
+        forward_fname = op.join(source_dir,''.join([subID,'_surf-fwd.fif']))
         forward = mne.read_forward_solution(forward_fname)
 
         stc_fname = '{}_mne_src-coh_{}-{}_{}_{}_{}-lh.stc'.format(

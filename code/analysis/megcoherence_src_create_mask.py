@@ -10,6 +10,7 @@ import re
 import mne
 import numpy as np
 from scipy import stats as stats
+from megcoherence_utils import project_dir
 
 parser = ArgumentParser()
 
@@ -32,10 +33,8 @@ mask_fname = args.mask_fname
 n_subjects = 14
 
 
-subjects_dir = op.join('/imaging', 'davis', 'users', 'ma09', 'Projects',
-                       'AVSpeechMEG', 'data', 'derivatives', 'anat')
-dest_dir = op.join('/imaging', 'davis', 'users', 'ma09', 'Projects',
-                   'AVSpeechMEG', 'data', 'derivatives', 'megcoherence',
+subjects_dir = op.join(project_dir, 'data', 'derivatives', 'anat')
+dest_dir = op.join(project_dir, 'data', 'derivatives', 'megcoherence',
                    'group')
 # Load mask image(s)
 stc_timg = mne.read_source_estimate(op.join(dest_dir,timg))

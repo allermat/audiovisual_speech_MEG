@@ -13,7 +13,7 @@ from mne.time_frequency import csd_morlet, csd_fourier
 from mne.beamformer import make_dics, apply_dics_csd
 from argparse import ArgumentParser
 from scipy.io import loadmat
-from megcoherence_utils import random_derangement
+from megcoherence_utils import random_derangement, project_dir
 # import time
 
 # Parse input
@@ -103,8 +103,7 @@ else:
 
 subIDlist = ['sub-' + str(n).zfill(2) for n in list(range(1, 15))]
 
-subjects_dir = op.join('/imaging', 'davis', 'users', 'ma09', 'Projects', 'AVSpeechMEG', 'data',
-                       'derivatives', 'anat')
+subjects_dir = op.join(project_dir, 'data', 'derivatives', 'anat')
 # # load fsaverage source space for morphing
 # mne.datasets.fetch_fsaverage(subjects_dir)  # ensure fsaverage src exists
 # fname_fs_src = subjects_dir + '/fsaverage/bem/fsaverage-vol-5-src.fif'
@@ -116,8 +115,7 @@ subjects_dir = op.join('/imaging', 'davis', 'users', 'ma09', 'Projects', 'AVSpee
 def load_epochs_env(subID, dest_dir):
     ft_epochs_fname = op.join(dest_dir, 'trials_no_env_MEG.mat')
     envelopes_fname = op.join(dest_dir, 'envelopes.mat')
-    raw_data_folder = op.join('/imaging', 'davis', 'Projects', 'AVSpeechMEG',
-                              'BIDS_data', 'derivatives', 'maxfilter', subID)
+    raw_data_folder = op.join(project_dir, 'derivatives', 'maxfilter', subID)
 
     raw_file = op.join(raw_data_folder, 'concatenated_icaed_raw_trans.fif')
     raw = mne.io.read_raw_fif(raw_file, verbose=False)
@@ -441,22 +439,19 @@ def process_subject(subID, epochs, forward, mod_str, freq, channel_type,
 ##############################################################################
 # Execute across subjects
 for subID in subIDlist:
-    source_dir = op.join('/imaging', 'davis', 'users', 'ma09', 'Projects', 'AVSpeechMEG', 'data',
-                         'derivatives', 'megcoherence', subID)
+    source_dir = op.join('project_dir, 'data', 'derivatives', 'megcoherence', subID)
     if out_subdir:
         dest_dir = op.join(source_dir, out_subdir)
         if not op.exists(dest_dir):
             os.mkdir(dest_dir)
     else:
         dest_dir = source_dir
-    evoked_dir = op.join('/imaging', 'davis', 'users', 'ma09', 'Projects', 'AVSpeechMEG', 'data',
-                         'derivatives', 'megevoked', subID)
+    
     # Load epochs with envelopes
     epochs_env = load_epochs_env(subID, source_dir)
 
     # Load precomputed forward solution
-    forward = mne.read_forward_solution(op.join(evoked_dir,
-                                                subID+'_surf-fwd.fif'))
+    forward = mne.read_forward_solution(op.join(source_dir, subID+'_surf-fwd.fif'))
     forward = mne.convert_forward_solution(forward, surf_ori=True)
 
     # Compute sensor and source level coherence with the envelope
