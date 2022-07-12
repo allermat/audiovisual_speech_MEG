@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6822557.svg)](https://doi.org/10.5281/zenodo.6822557)
+
 # Source code for research article: <br/>"Differential auditory and visual phase-locking are observed during audio-visual benefit and silent lip-reading for speech perception" 
 **by Máté Aller, Heidi Solberg Økland, Lucy J. MacGregor, Helen Blank, and Matthew H. Davis**
 
