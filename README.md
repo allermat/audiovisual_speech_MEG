@@ -50,4 +50,4 @@ Cite: Aller, M., Solberg Økland, H., MacGregor, L. J., Blank, H., & Davis, M. H
 All python dependencies are listed in audiovisual_speech_MEG/environment.yml
 
 ## Contributors
-The MEG analysis code was mainly written by Máté Aller. Preprocessing scripts (MEG, behavioural) were written by Heidi Solberg Økland. 
+The MEG analysis code was written by Máté Aller. Preprocessing scripts (MEG, behavioural) were written by Heidi Solberg Økland. 
